@@ -78,3 +78,6 @@ if __name__ == '__main__':
     ex = Map()
     ex.show()
     sys.exit(app.exec_())
+
+
+# текст
