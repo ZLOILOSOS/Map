@@ -67,14 +67,30 @@ class MainWindow(QWidget):
     def keyPressEvent(self, event):
         if event.key() == Qt.Key_PageUp and self.z < 20:
             self.z += 1
-            self.lat_step /= 2
-            self.lon_step /= 2
+            self.lat_step /= 1.5
+            self.lon_step /= 1.5
             self.view_image()
         elif event.key() == Qt.Key_PageDown and self.z > 0:
             self.z -= 1
-            self.lat_step *= 2
-            self.lon_step *= 2
+            self.lat_step *= 1.5
+            self.lon_step *= 1.5
             self.view_image()
+        elif event.key() == Qt.Key_Left:
+            self.lon -= self.lon_step * math.pow(2, 15 - self.z)
+            self.lon = self.lon % 180
+            self.view_image()
+        elif event.key() == Qt.Key_Right:
+            self.lon += self.lon_step * math.pow(2, 15 - self.z)
+            self.lon = self.lon % 180
+            self.view_image()
+        elif event.key() == Qt.Key_Up and self.lat < 90:
+            self.lat += self.lat_step * math.pow(2, 15 - self.z)
+            if self.lat < 90:
+                self.view_image()
+        elif event.key() == Qt.Key_Down and self.lat > -90:
+            self.lat -= self.lat_step * math.pow(2, 15 - self.z)
+            if self.lat > -90:
+                self.view_image()
 
 
     def closeEvent(self, event):
