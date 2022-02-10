@@ -1,5 +1,6 @@
 from PyQt5 import uic
 from PyQt5.QtWidgets import *
+from PyQt5.QtGui import QPixmap
 from PIL import Image
 import geocoder
 import distance
@@ -62,6 +63,8 @@ class Map(QWidget):
         uic.loadUi('map.ui', self)
         self.textEdit.setReadOnly(True)
         [i.clicked.connect(self.run) for i in self.buttonGroup.buttons()]
+
+        self.pixmap = QPixmap(response)
 
 
 if __name__ == '__main__':
