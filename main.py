@@ -12,6 +12,19 @@ from io import BytesIO
 import requests
 from PIL import Image
 
+api_server = "http://static-maps.yandex.ru/1.x/"
+
+lon = "37.530887"
+lat = "55.703118"
+delta = "0.002"
+
+params = {
+    "ll": ",".join([lon, lat]),
+    "spn": ",".join([delta, delta]),
+    "l": "map"
+}
+response = requests.get(api_server, params=params)
+
 
 class Map(QWidget):
     def __init__(self):
@@ -42,8 +55,7 @@ if not response:
     pass
 
 json_response = response.json()
-toponym = json_response["response"]["GeoObjectCollection"][
-    "featureMember"][0]["GeoObject"]
+toponym = json_response["response"]["GeoObjectCollection"]["featureMember"][0]["GeoObject"]
 toponym_coodrinates = toponym["Point"]["pos"]
 toponym_longitude, toponym_lattitude = toponym_coodrinates.split(" ")
 
@@ -60,7 +72,6 @@ response = requests.get(map_api_server, params=map_params)
 
 Image.open(BytesIO(
     response.content)).show()
-
 
 if __name__ == '__main__':
     app = QApplication(sys.argv)
